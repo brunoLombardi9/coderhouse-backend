@@ -73,6 +73,11 @@ class ProductManager {
     if (!newValue) {
       console.log("El nuevo valor no puede estar vacio");
     }
+    const numericProperties = ["price", "stock"];
+    if (numericProperties.includes(property) &&  typeof(newValue) !== "number") {
+      console.log("Las propiedades price y stock solo pueden ser numericas");
+      return;
+    }
     try {
       const products = await fs.readFile(this.productsPath, "utf-8");
       const productsArray = JSON.parse(products);
@@ -122,13 +127,13 @@ const productManager = new ProductManager("./products.txt");
 const product1 = new Product("Celular", "Telefonia", 50000, "url...", 400, 10);
 const product2 = new Product("Auricular", "Audio", 8000, "url...", 500, 7);
 const product3 = new Product("TV 50 pulgadas", "TV", 100000, "url...", 400, 15); // se repite el mismo code que el primer producto para forzar error
-const product4 = new Product("Notebook banghoo", "Computacion", 200000, "url...", 700, 5);
+const product4 = new Product( "Notebook banghoo", "Computacion", 200000, "url...", 700, 5 );
 
 await productManager.addProduct(product1);
 await productManager.addProduct(product2);
 await productManager.addProduct(product3);
 await productManager.addProduct(product4);
-// await productManager.updateProduct(4, "stock", 10);
+// await productManager.updateProduct(4, "stock", 15);
 // await productManager.getProductById(4);
 // await productManager.deleteProduct(2);
 await productManager.getProducts();
