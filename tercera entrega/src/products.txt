@@ -1,0 +1,1 @@
+[{"title":"Celular","description":"Telefonia","price":50000,"thumbnail":"url...","code":400,"stock":10,"id":1},{"title":"Auricular","description":"Audio","price":8000,"thumbnail":"url...","code":500,"stock":7,"id":2},{"title":"Notebook banghoo","description":"Computacion","price":200000,"thumbnail":"url...","code":700,"stock":5,"id":4}]

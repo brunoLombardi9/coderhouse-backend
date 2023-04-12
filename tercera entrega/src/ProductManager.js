@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 
-class ProductManager {
+export class ProductManager {
   constructor(productsPath) {
     this.productsPath = productsPath;
   }
@@ -46,9 +46,9 @@ class ProductManager {
   async getProducts() {
     try {
       const products = await fs.readFile(this.productsPath, "utf-8");
-      console.log(JSON.parse(products));
+      return JSON.parse(products);
     } catch (error) {
-      console.log("No se encontro archivo con productos.");
+      return "No se encontro archivo con productos.";
     }
   }
   async getProductById(id) {
@@ -129,11 +129,11 @@ const product2 = new Product("Auricular", "Audio", 8000, "url...", 500, 7);
 const product3 = new Product("TV 50 pulgadas", "TV", 100000, "url...", 400, 15); // se repite el mismo code que el primer producto para forzar error
 const product4 = new Product( "Notebook banghoo", "Computacion", 200000, "url...", 700, 5 );
 
-await productManager.addProduct(product1);
-await productManager.addProduct(product2);
-await productManager.addProduct(product3);
-await productManager.addProduct(product4);
-await productManager.updateProduct( "stock", 15);
+// await productManager.addProduct(product1);
+// await productManager.addProduct(product2);
+// await productManager.addProduct(product3);
+// await productManager.addProduct(product4);
+// await productManager.updateProduct(4, "stock", 15);
 // await productManager.getProductById(4);
 // await productManager.deleteProduct(2);
 // await productManager.getProducts();
