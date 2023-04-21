@@ -6,25 +6,17 @@ export class CartManager {
     this.productsPath = productsPath;
   }
 
-  static asignId() {
-    if (this.nextId) {
-      this.nextId++;
-    } else {
-      this.nextId = 1;
-    }
-
-    return this.nextId;
-  }
-
   async createCart() {
     try {
       const cartFile = await fs.readFile(this.productsPath, "utf-8");
       const cartArray = JSON.parse(cartFile);
-      const newCart = new Cart();
+      const maxID = cartArray.reduce((max, prod) => (prod.id > max ? prod.id : max), 0);
+      const newCart = new Cart(maxID ? maxID + 1 : 1);
       cartArray.push(newCart);
       await fs.writeFile(this.productsPath, JSON.stringify(cartArray));
       return "Carrito creado.";
     } catch (error) {
+      console.log(error);
       return "Hubo un problema, intenta nuevamente";
     }
   }
@@ -41,6 +33,7 @@ export class CartManager {
         return `No se encontraron carritos con el id ${id}`;
       }
     } catch (error) {
+      console.log(error)
       return "Hubo un problema, intenta nuevamente";
     }
   }
@@ -50,28 +43,30 @@ export class CartManager {
       const cartFile = await fs.readFile(this.productsPath, "utf-8");
       const cartArray = JSON.parse(cartFile);
       const searchedCart = cartArray.find((cart) => cart.id === cid);
-      const inCartProduct = searchedCart.products.find(
-        (prod) => prod.id === pid
-      );
+      const inCartProduct = searchedCart && searchedCart.products.find((prod) => prod.id === pid) 
       const product = await productManager.getProductById(pid);
 
       if (!searchedCart) return `No se encontraron carritos con el id ${cid}`;
 
-      if (typeof product !== "object")
-        return `No se encontraron productos con el id ${cid}`;
+      if (typeof product !== "object") {
+        return `No se encontraron productos con el id ${pid}`;
+      }
 
       if (inCartProduct) {
         inCartProduct.quantity++;
         await fs.writeFile(this.productsPath, JSON.stringify(cartArray));
+        return `Se sumo otra unidad del producto ${inCartProduct.title}.`;
       } else {
-        const newItem = { id: CartManager.asignId(), quantity: 1 };
+        const newItem = {
+          id: product.id,
+          title: product.title,
+          quantity: 1,
+        };
         searchedCart.products.push(newItem);
         await fs.writeFile(this.productsPath, JSON.stringify(cartArray));
-        console.log(searchedCart);
+        return `Se agrego una unidad del producto ${product.title}.`;
       }
-      // return searchedCart
 
-      // return `No se encontraron carritos con el id ${cid}`;
     } catch (error) {
       console.log(error);
       return "Hubo un problema, intenta nuevamente";
@@ -80,8 +75,8 @@ export class CartManager {
 }
 
 class Cart {
-  constructor() {
-    this.id = CartManager.asignId();
+  constructor(id) {
+    this.id = id;
     this.products = [];
   }
 }

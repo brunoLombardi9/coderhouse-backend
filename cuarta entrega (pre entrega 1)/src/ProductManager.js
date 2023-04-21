@@ -5,16 +5,6 @@ export class ProductManager {
     this.productsPath = productsPath;
   }
 
-  static asignId() {
-    if (this.nextId) {
-      this.nextId++;
-    } else {
-      this.nextId = 1;
-    }
-
-    return this.nextId;
-  }
-
   getProps() {
     const props = [
       { property: "title", type: "string" },
@@ -37,7 +27,7 @@ export class ProductManager {
       const actualProperty = product[props[i].property];
       const actualType = props[i].type;
 
-      if (!hasProp) return "Faltan datos.";
+      if (!hasProp || !actualProperty) return "Faltan datos.";
 
       if (actualType === "number") {
         product[props[i].property] = parseInt(actualProperty);
@@ -60,6 +50,8 @@ export class ProductManager {
         return `El code de ${product.title} ya existe.`;
       }
 
+      const maxID = productsArray.reduce((max, prod) => prod.id > max ? prod.id : max, 0);
+
       const newProduct = new Product(
         product.title,
         product.description,
@@ -68,7 +60,8 @@ export class ProductManager {
         product.code,
         product.stock,
         product.category,
-        product.status
+        product.status,
+        maxID ? maxID + 1 : 1
       );
 
       productsArray.push(newProduct);
@@ -83,6 +76,7 @@ export class ProductManager {
       const products = await fs.readFile(this.productsPath, "utf-8");
       return JSON.parse(products);
     } catch (error) {
+      console.log(error)
       return "No se encontraron productos";
     }
   }
@@ -98,6 +92,7 @@ export class ProductManager {
         return "No se encontro el producto indicado";
       }
     } catch (error) {
+      console.log(error)
       return "No se encontro archivo con productos";
     }
   }
@@ -129,15 +124,12 @@ export class ProductManager {
 
       return "Producto modificado";
     } catch (error) {
+      console.log(error)
       return "Hubo un problema, intenta nuevamente.";
     }
   }
 
   async deleteProduct(id) {
-    if (!id) {
-      console.log("Es obligatorio ingresar id del producto");
-      return;
-    }
     try {
       const products = await fs.readFile(this.productsPath, "utf-8");
       const productsArray = JSON.parse(products);
@@ -155,7 +147,7 @@ export class ProductManager {
 }
 
 class Product {
-  constructor( title, description, price, thumbnail, code, stock, category, status) {
+  constructor( title, description, price, thumbnail, code, stock, category, status, id) {
     (this.title = title),
       (this.description = description),
       (this.price = price),
@@ -164,6 +156,6 @@ class Product {
       (this.stock = stock);
       this.category = category;
       this.status = status;
-      this.id = ProductManager.asignId();
+      this.id = id;
   }
 }

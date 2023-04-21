@@ -19,6 +19,7 @@ cartRouter.get("/:cid", async (req, res) => {
     const searchedCart = await cartManager.getCart(cid);
     console.log(searchedCart);
   } catch (error) {
+    console.log(error)
     console.log("Algo salio mal, intente nuevamente.");
   }
 });
@@ -30,6 +31,7 @@ cartRouter.post("/:cid/product/:pid", async (req, res) => {
     const addProductResult = await cartManager.addProductToCart(cid, pid);
     console.log(addProductResult);
   } catch (error) {
+    console.log(error)
     console.log("Algo salio mal, intente nuevamente.");
   }
 });
