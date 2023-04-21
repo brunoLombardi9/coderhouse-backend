@@ -1,0 +1,1 @@
+[{"title":"Monitor","description":"accesorio pc","price":30000,"thumbnail":[],"code":"mono3","stock":2,"category":"PC","status":true,"id":1},{"title":"Monitor","description":"accesorio pc","price":30000,"thumbnail":[],"code":"mono2","stock":2,"category":"PC","status":false,"id":2}]

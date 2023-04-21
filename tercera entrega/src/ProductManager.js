@@ -48,7 +48,7 @@ export class ProductManager {
       const products = await fs.readFile(this.productsPath, "utf-8");
       return JSON.parse(products);
     } catch (error) {
-      return "No se encontro archivo con productos.";
+      return [];
     }
   }
   async getProductById(id) {
@@ -72,9 +72,10 @@ export class ProductManager {
     }
     if (!newValue) {
       console.log("El nuevo valor no puede estar vacio");
+      return;
     }
     const numericProperties = ["price", "stock"];
-    if (numericProperties.includes(property) &&  typeof(newValue) !== "number") {
+    if (numericProperties.includes(property) && typeof newValue !== "number") {
       console.log("Las propiedades price y stock solo pueden ser numericas");
       return;
     }
@@ -127,7 +128,14 @@ const productManager = new ProductManager("./products.txt");
 const product1 = new Product("Celular", "Telefonia", 50000, "url...", 400, 10);
 const product2 = new Product("Auricular", "Audio", 8000, "url...", 500, 7);
 const product3 = new Product("TV 50 pulgadas", "TV", 100000, "url...", 400, 15); // se repite el mismo code que el primer producto para forzar error
-const product4 = new Product( "Notebook banghoo", "Computacion", 200000, "url...", 700, 5 );
+const product4 = new Product(
+  "Notebook banghoo",
+  "Computacion",
+  200000,
+  "url...",
+  700,
+  5
+);
 
 // await productManager.addProduct(product1);
 // await productManager.addProduct(product2);
