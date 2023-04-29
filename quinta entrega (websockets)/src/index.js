@@ -42,7 +42,6 @@ io.on("connection", async (socket) => {
   });
 
   socket.on("delete-product", async (id) => {
-    console.log(id)
     await productManager.deleteProduct(id);
     const products = await productManager.getProducts();
     socket.emit("updated-products", products);
