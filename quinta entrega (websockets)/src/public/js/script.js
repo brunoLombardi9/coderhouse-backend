@@ -33,25 +33,30 @@ function deleteProduct(prodId) {
 
 function generateCards(products) {
   realTimeProducts.innerHTML = "";
-  products.forEach((p) => {
-    const productCard = `      
-   <div class="card m-3" style="width: 18rem;">
-    <ul class="list-group list-group-flush">
-       <li class="list-group-item">${p.title}</li>
-       <li class="list-group-item">${p.description}</li>
-       <li class="list-group-item">$${p.price}</li>
-       <li class="list-group-item">${p.code}</li>
-       <li class="list-group-item">${p.stock}</li>
-       <li class="list-group-item">${p.category}</li>
-       <li class="list-group-item">${p.id}</li>
-     <button
-        class="btn btn-danger"
-        onclick="deleteProduct(${p.id})"
-         >Eliminar</button>
-     </ul>
-   </div>`;
-    realTimeProducts.innerHTML += productCard;
-  });
+
+  if (products.length > 0) {
+    products.forEach((p) => {
+      const productCard = `      
+            <div class="card m-3" style="width: 18rem;">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">${p.title}</li>
+                <li class="list-group-item">${p.description}</li>
+                <li class="list-group-item">$${p.price}</li>
+                <li class="list-group-item">${p.code}</li>
+                <li class="list-group-item">${p.stock}</li>
+                <li class="list-group-item">${p.category}</li>
+                <li class="list-group-item">${p.id}</li>
+              <button
+                  class="btn btn-danger"
+                  onclick="deleteProduct(${p.id})"
+                  >Eliminar</button>
+              </ul>
+            </div>`;
+      realTimeProducts.innerHTML += productCard;
+    });
+  } else {
+    realTimeProducts.innerHTML += `<p class="text-center fw-bold text-white">No se encontraron productos</p>`;
+  }
 }
 
 socket.on("updated-products", (data) => {
@@ -59,9 +64,9 @@ socket.on("updated-products", (data) => {
 });
 
 socket.on("product-exist", (message) => {
-  alert(message)
-})
+  alert(message);
+});
 
 socket.on("product-added", (message) => {
-  alert(message)
-})
+  alert(message);
+});
