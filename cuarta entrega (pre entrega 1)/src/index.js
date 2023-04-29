@@ -10,6 +10,6 @@ app.use(express.json());
 app.listen(PORT);
 
 //Routes
-app.use("/static", express.static(__dirname + "/public"));
+app.use("/", express.static(__dirname + "/public"));
 app.use("/product", productRouter);
 app.use("/cart", cartRouter);
