@@ -1,5 +1,6 @@
 import { promises as fs } from "fs";
-import { productManager } from "./routes/product.routes.js";
+import { productManager } from "../routes/products.routes.js";
+
 
 export class CartManager {
   constructor(productsPath) {

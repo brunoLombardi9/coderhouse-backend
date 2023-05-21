@@ -38,20 +38,18 @@ export class ProductManager {
     }
   }
 
+
   async addProduct(product) {
     try {
       const productsFile = await fs.readFile(this.productsPath, "utf-8");
       const productsArray = JSON.parse(productsFile);
       const hasSameCode = productsArray.find((x) => x.code === product.code);
-      const missingData = await this.checkProperties(product);
+      const maxID = productsArray.reduce((max, prod) => (prod.id > max ? prod.id : max),0);
 
-      if (missingData) return missingData;
       if (hasSameCode) {
-        return `El code de ${product.title} ya existe.`;
+        return "exist"
       }
-
-      const maxID = productsArray.reduce((max, prod) => prod.id > max ? prod.id : max, 0);
-
+      
       const newProduct = new Product(
         product.title,
         product.description,
@@ -66,7 +64,7 @@ export class ProductManager {
 
       productsArray.push(newProduct);
       await fs.writeFile(this.productsPath, JSON.stringify(productsArray));
-      return "Producto agregado";
+      return "added";
     } catch (error) {
       return "Hubo un problema, intenta nuevamente.";
     }
@@ -76,10 +74,27 @@ export class ProductManager {
       const products = await fs.readFile(this.productsPath, "utf-8");
       return JSON.parse(products);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return "No se encontraron productos";
     }
   }
+
+  async deleteProduct(id) {
+    try {
+      const products = await fs.readFile(this.productsPath, "utf-8");
+      const productsArray = JSON.parse(products);
+      const newArray = productsArray.filter((p) => p.id !== id);
+      const searchedProduct = productsArray.find((p) => p.id === id);
+
+      if (!searchedProduct) return "No se encontro el producto a borrar.";
+
+      await fs.writeFile(this.productsPath, JSON.stringify(newArray));
+      return `Se borro correctamente el producto con el ${id}`;
+    } catch (error) {
+      return "No se encontro archivo de productos.";
+    }
+  }
+
   async getProductById(id) {
     try {
       const products = await fs.readFile(this.productsPath, "utf-8");
@@ -159,3 +174,7 @@ class Product {
       this.id = id;
   }
 }
+
+
+
+
