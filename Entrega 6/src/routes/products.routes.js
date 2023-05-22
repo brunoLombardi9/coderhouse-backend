@@ -24,8 +24,7 @@ productsRouter.post("/", async (req, res) => {
     thumbnail: req.body.thumbnail
   });
 
-  newProduct.save()
-
+ await  newProduct.save()
 });
 
 productsRouter.get("/:id", async (req, res) => {

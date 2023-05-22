@@ -12,6 +12,7 @@ const productSchema = new Schema({
   code: {
     type: String,
     required: true,
+    unique: true
   },
   category: {
     type: String,
@@ -34,4 +35,4 @@ const productSchema = new Schema({
 
 const productModel = model("products", productSchema);
 
-export default productModel
+export default productModel;

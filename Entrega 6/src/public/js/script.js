@@ -1,72 +1,93 @@
 const socket = io();
 
-//Datos del form
+//Elementos del DOM
 const title = document.querySelector("#title");
 const description = document.querySelector("#description");
 const price = document.querySelector("#price");
 const code = document.querySelector("#code");
 const stock = document.querySelector("#stock");
 const category = document.querySelector("#category");
-const realTimeProducts = document.querySelector("#realTimeProducts");
+const user = document.querySelector("#user");
+const message = document.querySelector("#message");
+
+//Datos del form
 
 function productsFormHandler(e) {
   e.preventDefault();
-
-  const newProduct = {
+  const formData = {
     title: title.value,
     description: description.value,
-    price: parseFloat(price.value),
-    thumbnail: [],
     code: code.value,
-    stock: parseInt(stock.value),
     category: category.value,
-    status: true,
+    price: price.value,
+    stock: stock.value,
   };
 
-  socket.emit("new-product", newProduct);
+  fetch("/realtimeproducts", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  })
+    .then((res) => {
+      if (res.status === 400) {
+        console.log(res);
+        alert("Ya existe un producto con el código ingresado");
+      }
+      if (res.status === 200) {
+        console.log(res);
+        alert("Producto agregado correctamente");
+        location.reload();
+      }
+    })
+    .catch((error) => alert("Algo salió mal, error" + error));
 }
 
 function deleteProduct(prodId) {
-  const id = parseInt(prodId);
-  socket.emit("delete-product", id);
-}
+  const id = prodId;
 
-function generateCards(products) {
-  realTimeProducts.innerHTML = "";
-
-  if (products.length > 0) {
-    products.forEach((p) => {
-      const productCard = `      
-            <div class="card m-3" style="width: 18rem;">
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">${p.title}</li>
-                <li class="list-group-item">${p.description}</li>
-                <li class="list-group-item">$${p.price}</li>
-                <li class="list-group-item">${p.code}</li>
-                <li class="list-group-item">${p.stock}</li>
-                <li class="list-group-item">${p.category}</li>
-                <li class="list-group-item">${p.id}</li>
-              <button
-                  class="btn btn-danger"
-                  onclick="deleteProduct(${p.id})"
-                  >Eliminar</button>
-              </ul>
-            </div>`;
-      realTimeProducts.innerHTML += productCard;
+  fetch(`/realtimeproducts/${id}`, {
+    method: "DELETE",
+  })
+    .then((response) => {
+      if (response.status === 200) {
+        alert("Producto eliminado correctamente");
+        location.reload();
+      }
+      if (response.status === 400) {
+        alert("Producto no encontrado");
+      }
+    })
+    .catch((error) => {
+      console.error("Error en la petición:", error);
     });
-  } else {
-    realTimeProducts.innerHTML += `<p class="text-center fw-bold text-white">No se encontraron productos</p>`;
-  }
 }
 
-socket.on("updated-products", (data) => {
-  generateCards(data);
-});
+function chatHandler(e) {
+  e.preventDefault();
 
-socket.on("product-exist", (message) => {
-  alert(message);
-});
+  const chatData = {
+    user: user.value,
+    message: message.value,
+  };
 
-socket.on("product-added", (message) => {
-  alert(message);
+  fetch("/chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(chatData),
+  }).catch((err) => console.log(err));
+}
+
+socket.on("new-message", (data) => {
+  chat.innerHTML = "";
+  data.map((message) => {
+    return (chat.innerHTML += `
+  <div class="d-flex gap-3 ms-5">
+  <p>${message.user}:</p>
+  <p>${message.message}</p>
+ </div>`);
+  });
 });
