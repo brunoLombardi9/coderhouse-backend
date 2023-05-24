@@ -1,0 +1,49 @@
+<form
+  class="w-75 m-auto bg-white d-flex flex-column rounded"
+  onsubmit="chatHandler(event)"
+  method="post"
+>
+
+  <div id="chat">
+
+    {{#if messagesExist}}
+
+      <p class="text-center">Mensajes:</p>
+
+      {{#each messages}}
+        <div class="d-flex gap-3 ms-5">
+          <p>{{user}}:</p>
+          <p>{{message}}</p>
+        </div>
+      {{/each}}
+
+    {{else}}
+      <p class="text-center fw-bold text-dark">No se encontraron mensajes</p>
+    {{/if}}
+
+  </div>
+
+  <div class="d-flex p-4 gap-2">
+    <label class="form-label">Usuario:</label>
+    <input
+      type="text"
+      class="form-control w-25"
+      required
+      name="user"
+      id="user"
+    />
+
+    <label class="form-label">Mensaje:</label>
+    <input
+      type="text"
+      class="form-control"
+      required
+      name="message"
+      id="message"
+    />
+
+    <button class="btn btn-primary" type="submit">Enviar</button>
+
+  </div>
+
+</form>

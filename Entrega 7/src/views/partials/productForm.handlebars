@@ -1,0 +1,39 @@
+<form
+  class="mx-auto w-50 d-flex flex-column mt-3 border rounded p-3 bg-white"
+  onsubmit="productsFormHandler(event)"
+  method="post"
+>
+
+  <div>
+    <label class="form-label">Nombre de producto:</label>
+    <input type="text" class="form-control" required name="title" id="title"/>
+  </div>
+
+  <div>
+    <label class="form-label">Descriptcion:</label>
+    <input type="text" class="form-control" required name="description" id="description"/>
+  </div>
+
+  <div>
+    <label class="form-label">Precio:</label>
+    <input type="number" class="form-control" required name="price" id="price" step="0.01" />
+  </div>
+
+  <div>
+    <label class="form-label">Código:</label>
+    <input type="text" class="form-control" required name="code" id="code"/>
+  </div>
+
+  <div>
+    <label class="form-label">Stock:</label>
+    <input type="number" class="form-control" required name="stock" id="stock"/>
+  </div>
+
+  <div>
+    <label class="form-label">Categoria:</label>
+    <input type="text" class="form-control" required name="category" id="category"/>
+  </div>
+
+  <button class="btn btn-primary w-25 ms-auto me-auto mt-4" type="submit">Subir producto</button>
+
+</form>
