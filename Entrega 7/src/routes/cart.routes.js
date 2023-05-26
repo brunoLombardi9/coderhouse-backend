@@ -12,10 +12,8 @@ cartRouter.get("/", async (req, res) => {
 cartRouter.post("/", async (req, res) => {
   try {
     const newCart = await cartModel.create({ products: [] });
-    console.log(newCart);
     res.status(200).json(newCart);
   } catch (error) {
-    console.log("Algo salió mal, intente nuevamente.");
     res.status(500).json({ error: "Algo salió mal, intente nuevamente." });
   }
 });
@@ -24,7 +22,6 @@ cartRouter.get("/:cid", async (req, res) => {
   try {
     const cid = req.params.cid;
     const searchedCart = await cartModel.findById(cid);
-    console.log(searchedCart);
     res.status(200).json(searchedCart);
   } catch (error) {
     res.status(500).json({ error: "Algo salió mal, intente nuevamente." });
