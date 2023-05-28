@@ -26,7 +26,7 @@ cartRouter.get("/:cid", async (req, res) => {
       .populate("products.id_prod");
 
     const products = searchedCart.products.map((product) => ({
-      id: product.id_prod,
+      id: product.id_prod._id,
       title: product.id_prod.title,
       price: product.id_prod.price,
       quantity: product.quantity,

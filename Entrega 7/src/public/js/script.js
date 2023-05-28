@@ -45,9 +45,8 @@ function productsFormHandler(e) {
 }
 
 function deleteProduct(prodId) {
-  const id = prodId;
 
-  fetch(`/products/${id}`, {
+  fetch(`/products/${prodId}`, {
     method: "DELETE",
   })
     .then((response) => {
@@ -64,6 +63,24 @@ function deleteProduct(prodId) {
     });
 }
 
+function deleteCartProduct(prodId) {
+  const url = window.location.href;
+  const urltoFetch = `${url}/product/${prodId}`;
+
+  fetch(urltoFetch, { method: "DELETE" })
+    .then((response) => {
+      if (response.status === 200) {
+        alert("Producto eliminado correctamente");
+        location.reload();
+      }
+      if (response.status === 400) {
+        alert("Producto no encontrado");
+      }
+    })
+    .catch((error) => {
+      console.error("Error en la petición:", error);
+    });
+}
 
 function chatHandler(e) {
   e.preventDefault();
