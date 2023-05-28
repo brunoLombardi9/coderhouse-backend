@@ -64,6 +64,7 @@ function deleteProduct(prodId) {
     });
 }
 
+
 function chatHandler(e) {
   e.preventDefault();
 

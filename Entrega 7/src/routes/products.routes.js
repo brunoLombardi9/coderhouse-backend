@@ -1,40 +1,12 @@
 import { Router } from "express";
 import productModel from "../mongoDB/models/Products.js";
+import getPaginatedProducts from "../utils/getPaginatedProducts.js";
 
 const productsRouter = Router();
 
-async function getPaginatedProducts(page, limit, categoryFilter = null) {
-  const filter = {};
-
-  if (categoryFilter) {
-    filter.category = categoryFilter;
-  }
-
-  const pagination = await productModel.paginate(filter, {
-    page,
-    limit,
-    sort: { price: -1 },
-  });
-
-  const products = pagination.docs;
-  const productsExist = products.length > 0;
-  const nextLink = pagination.hasNextPage
-    ? `/products/page/${pagination.nextPage}/limit/${limit}`
-    : null;
-  const prevLink = pagination.hasPrevPage
-    ? `/products/page/${pagination.prevPage}/limit/${limit}`
-    : null;
-
-  pagination.status = "success";
-  pagination.nextLink = nextLink;
-  pagination.prevLink = prevLink;
-
-  return { products, productsExist, nextLink, prevLink };
-}
-
 productsRouter.get("/", async (req, res) => {
   const page = 1;
-  const limit = 5;
+  const limit = 10;
   
   try {
     const productsData = await getPaginatedProducts(page, limit);
@@ -85,8 +57,7 @@ productsRouter.post("/", async (req, res) => {
 
   await newProduct.save();
 
-  console.log("Producto agregado correctamente!");
-  res.status(200).json({ message: "Producto agregado" });
+  res.status(200).json({ message: "Producto agregado!" });
 });
 
 productsRouter.delete("/:id", async (req, res) => {
