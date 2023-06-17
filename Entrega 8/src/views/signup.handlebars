@@ -1,0 +1,54 @@
+<form
+  id="signupForm"
+  class="mx-auto d-flex g-2 flex-column w-50 bg-white p-4 rounded"
+  method="post"
+  action="/signup"
+>
+
+  <h1 class="text-center">Registro</h1>
+
+  {{#if userExist}}
+    <div
+      class="bg-danger text-center p-3 w-50 rounded mx-auto my-2 text-white"
+    >El usuario ingresado ya existe</div>
+  {{/if}}
+
+  <input
+    type="text"
+    class="form-label rounded py-2"
+    required
+    placeholder="Nombre"
+    id="signupName"
+    name="name"
+  />
+  <input
+    type="text"
+    class="form-label rounded py-2"
+    required
+    placeholder="Apellido"
+    id="signupLastName"
+    name="lastName"
+  />
+  <input
+    type="text"
+    class="form-label rounded py-2"
+    required
+    placeholder="Email"
+    id="signupMail"
+    name="email"
+  />
+  <input
+    type="password"
+    class="form-label rounded py-2"
+    required
+    placeholder="Contraseña"
+    id="signupPassword"
+    name="password"
+  />
+
+  <button class="btn btn-primary" type="submit">Entrar</button>
+
+  <div class="pt-2">¿Ya tiene usuario? ir a
+    <a class="text-decoration-underline" href="/login">Login</a></div>
+
+</form>

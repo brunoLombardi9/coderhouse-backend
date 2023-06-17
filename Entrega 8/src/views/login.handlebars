@@ -1,0 +1,44 @@
+<form
+  id="loginForm"
+  class="mx-auto d-flex g-2 flex-column w-50 bg-white p-4 rounded"
+  method="post"
+  action="/login"
+>
+
+  <h1 class="text-center">Login</h1>
+
+  {{#if noUser}}
+    <div
+      class="bg-danger text-center p-3 w-50 rounded mx-auto my-2 text-white"
+    >No se encontro el usuario ingresado</div>
+  {{/if}}
+
+  {{#if badData}}
+    <div
+      class="bg-danger text-center p-3 w-50 rounded mx-auto my-2 text-white"
+    >Email o contraseña incorrectos.</div>
+  {{/if}}
+
+  <input
+    type="text"
+    class="form-label rounded py-2"
+    required
+    placeholder="Email"
+    id="loginMail"
+    name="email"
+  />
+  <input
+    type="password"
+    class="form-label rounded py-2"
+    required
+    placeholder="Contraseña"
+    id="loginPassword"
+    name="password"
+  />
+
+  <button class="btn btn-primary" type="submit">Entrar</button>
+
+  <div class="pt-2">¿No tiene usuario? ir a
+    <a class="text-decoration-underline" href="/signup">Registro</a></div>
+
+</form>
