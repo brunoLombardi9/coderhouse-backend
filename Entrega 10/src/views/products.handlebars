@@ -1,0 +1,29 @@
+
+  <div class="w-100 d-flex justify-content-end align-items-center">
+    <p class="text-white my-auto px-2">Bienvenido {{name}}!</p>
+<div class="my-2">
+    <button class="btn btn-danger " onclick="handleLogout()">Logout</button>
+    <button class="btn btn-success " onclick='window.location.href="/cart/{{cartId}}"'>Carrito</button>
+</div>
+    </div>
+
+
+{{>productForm}}
+
+
+<div class="d-flex flex-column justify-content-center" id="realTimeProducts">
+  <div class="d-flex mx-auto row justify-content-center">
+  {{> productCards}}  
+  </div>
+
+  <div class="d-flex justify-content-center mx-auto gap-2 p-3">
+
+          {{#if prevLink}}
+              <a href={{prevLink}} class="btn btn-primary">Anterior</a>
+          {{/if}}
+
+          {{#if nextLink}}
+              <a href={{nextLink}} class="btn btn-primary">Siguiente</a>
+          {{/if}}
+  </div>
+</div>

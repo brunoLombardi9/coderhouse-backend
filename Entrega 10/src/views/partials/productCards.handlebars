@@ -1,0 +1,26 @@
+{{#if productsExist}}
+
+  {{#each products}}
+    <div class="card m-3 py-2" style="width: 18rem;">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">{{title}}</li>
+        <li class="list-group-item">{{description}}</li>
+        <li class="list-group-item">${{price}}</li>
+        <li class="list-group-item">{{code}}</li>
+        <li class="list-group-item">{{stock}}</li>
+        <li class="list-group-item">{{category}}</li>
+                <button
+          class="btn btn-success"
+        onclick="addProduct('{{_id}}')"
+        >Agregar al carrito</button>
+        <button
+          class="btn btn-danger mt-2"
+          onclick="deleteProduct('{{_id}}')"
+        >Eliminar</button>
+      </ul>
+    </div>
+  {{/each}}
+
+{{else}}
+  <p class="text-center fw-bold text-white">No se encontraron productos</p>
+{{/if}}

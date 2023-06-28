@@ -1,0 +1,17 @@
+{{#if name}}
+  <h1 class="text-center">Bienvenido {{name}}</h1>
+
+  <button
+    onclick="window.location.href='/products'"
+    class="btn btn-primary mx-auto"
+  >Ir a productos</button>
+
+{{else}}
+  <h1 class="text-center">No se encontro usuario</h1>
+
+  <button
+    onclick="window.location.href='/login'"
+    class="btn btn-primary mx-auto"
+  >Ir a Login</button>
+
+{{/if}}
